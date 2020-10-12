@@ -1,0 +1,8 @@
+# IDE cache
+.vscode
+
+# builds
+build/
+vsbuild/
+nmakebuild/
+
