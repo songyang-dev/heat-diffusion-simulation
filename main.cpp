@@ -4,22 +4,19 @@
 #include <Eigen/Sparse>
 #include <iostream>
 
+#include "laplacian.h"
+#include "trimesh.h"
 
 int main(int argc, char * argv[])
 {
-    Eigen::MatrixXd V;
-    Eigen::MatrixXi F;
+    // build the mesh from the obj file
+    trimesh::trimesh_t mesh("../../input/horse-1.obj");
     Eigen::MatrixXd eigenvectors;
-    if(!igl::read_triangle_mesh(
-            argc>1?argv[1]: "../../input/horse-1.obj",V,F))
-    {
-        std::cout<<"failed to load mesh"<<std::endl;
-    }
 
-    eigenvectors = V.block(0,0,V.rows(), 2);
+    eigenvectors = mesh.Vertices.block(0,0,mesh.Vertices.rows(), 2);
 
     igl::opengl::glfw::Viewer viewer;
-    viewer.data().set_mesh(V,F);
+    viewer.data().set_mesh(mesh.Vertices,mesh.Faces);
 //    viewer.data().compute_normals();
 
     int selectedcolumn=0;
