@@ -10,7 +10,17 @@
 int main(int argc, char * argv[])
 {
     // build the mesh from the obj file
-    trimesh::trimesh_t mesh("../../input/horse-1.obj");
+    trimesh::trimesh_t mesh(argc == 0 ? "../../input/horse-1.obj" : argv[1]);
+
+    // get laplacian
+    auto laplacian = computeLaplacian(mesh);
+
+    // print cotangent laplacian    
+    // std::ofstream myfile;
+    // myfile.open("matrix.txt");
+    // myfile << laplacian << std::endl;
+    // myfile.close();
+
     Eigen::MatrixXd eigenvectors;
 
     eigenvectors = mesh.Vertices.block(0,0,mesh.Vertices.rows(), 2);

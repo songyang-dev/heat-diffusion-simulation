@@ -2,6 +2,7 @@
 #define __utils_h__
 
 #include "trimesh_types.h"
+#include <vector>
 
 // maps
 
