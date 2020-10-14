@@ -2,11 +2,13 @@
 #define __utils_h__
 
 #include "trimesh_types.h"
-#include <map>
 
 // maps
 
-// From edge to cotangents
-typedef std::map<trimesh::index_t, std::pair<double, double>> EdgeToCotan;
+// From edge index to cotangents
+typedef std::vector<std::pair<double, double>> EdgeToCotan;
+
+// Covert cosine of an angle to cotangent
+double cosToCot(double cosine);
 
 #endif // __utils_h__

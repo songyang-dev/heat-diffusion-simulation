@@ -3,9 +3,14 @@
 
 #include <Eigen/Sparse>
 #include "trimesh.h"
+#include "utils.h"
 
 typedef Eigen::Triplet<double> Triplet;
 
 Eigen::SparseMatrix<double> computeLaplacian(const trimesh::trimesh_t& mesh);
+
+EdgeToCotan computeCotangents(const trimesh::trimesh_t& mesh);
+double edgeLength(const trimesh::trimesh_t& mesh, const trimesh::edge_t& edge);
+double edgeLength(const trimesh::trimesh_t& mesh, const std::pair<trimesh::index_t, trimesh::index_t>& pair);
 
 #endif

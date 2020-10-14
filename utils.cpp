@@ -1,4 +1,10 @@
 #include "utils.h"
 
-#include "trimesh_types.h"
-#include <map>
+#include <cmath>
+
+// Turn cos to cotan
+double cosToCot(double cosine)
+{
+    double sine = std::sqrt(1 - std::pow(cosine, 2));
+    return cosine/sine;
+}

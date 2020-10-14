@@ -97,8 +97,6 @@ namespace trimesh
             }
         };
 
-        halfedge_t& createHalfEdge(index_t start, index_t end);
-
         // Builds the half-edge data structures from the given triangles and edges.
         // NOTE: 'edges' can be derived from 'triangles' by calling
         //       unordered_edges_from_triangles(), above.  build() does not
