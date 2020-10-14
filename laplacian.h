@@ -7,7 +7,7 @@
 
 typedef Eigen::Triplet<double> Triplet;
 
-Eigen::SparseMatrix<double> computeLaplacian(const trimesh::trimesh_t& mesh);
+Eigen::SparseMatrix<double> computeCotangentLaplacian(const trimesh::trimesh_t& mesh);
 
 EdgeToCotan computeCotangents(const trimesh::trimesh_t& mesh);
 double edgeLength(const trimesh::trimesh_t& mesh, const trimesh::edge_t& edge);

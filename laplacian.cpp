@@ -8,10 +8,10 @@
 #include <Eigen/Sparse>
 
 // Computes the cotangent Laplacian of the mesh
-Eigen::SparseMatrix<double> computeLaplacian(const trimesh::trimesh_t &mesh)
+Eigen::SparseMatrix<double> computeCotangentLaplacian(const trimesh::trimesh_t &mesh)
 {
     // to be filled with triplets
-    Eigen::SparseMatrix<double> laplacian(mesh.Vertices.rows(), mesh.Vertices.rows());
+    Eigen::SparseMatrix<double> cotangentLaplacian(mesh.Vertices.rows(), mesh.Vertices.rows());
 
     std::vector<Triplet> matrix_non_diagonal_elements;
     matrix_non_diagonal_elements.reserve(6 * mesh.Vertices.rows()); // degree 6 vertices
@@ -62,15 +62,15 @@ Eigen::SparseMatrix<double> computeLaplacian(const trimesh::trimesh_t &mesh)
         {
             sum += offDiagonals.coeff(i, neighbor);
         }
-        matrix_diagonal_elements.push_back(Triplet(i,i,0.5*sum));
+        matrix_diagonal_elements.push_back(Triplet(i,i,-sum));
     }
     // use triplets
-    laplacian.setFromTriplets(matrix_diagonal_elements.begin(), matrix_diagonal_elements.end());
+    cotangentLaplacian.setFromTriplets(matrix_diagonal_elements.begin(), matrix_diagonal_elements.end());
 
     // add non diagonals
-    laplacian = laplacian + offDiagonals;
+    cotangentLaplacian = cotangentLaplacian + offDiagonals;
 
-    return laplacian;
+    return cotangentLaplacian;
 }
 
 // Computes the cotangents for every edge of the mesh

@@ -2,28 +2,35 @@
 #include <igl/opengl/glfw/Viewer.h>
 #include <igl/read_triangle_mesh.h>
 #include <Eigen/Sparse>
-#include <iostream>
 
 #include "laplacian.h"
 #include "trimesh.h"
+#include "examine.h"
 
 int main(int argc, char * argv[])
 {
     // build the mesh from the obj file
-    trimesh::trimesh_t mesh(argc == 0 ? "../../input/horse-1.obj" : argv[1]);
+    trimesh::trimesh_t mesh(argc == 1 ? "../../input/horse-1.obj" : argv[1]);
+
+    // # of eigenvectors to view
+    int numEigensToSee = 1;
+    if (argc == 3) numEigensToSee = atoi(argv[2]);
 
     // get laplacian
-    auto laplacian = computeLaplacian(mesh);
+    Eigen::SparseMatrix<double> laplacian = computeCotangentLaplacian(mesh);
 
-    // print cotangent laplacian    
-    // std::ofstream myfile;
-    // myfile.open("matrix.txt");
-    // myfile << laplacian << std::endl;
-    // myfile.close();
+    // debug, examine
+    examineLaplacian(laplacian);
 
+    Eigen::SparseMatrix<double> identity(laplacian.rows(), laplacian.cols());
+    identity.setIdentity();
     Eigen::MatrixXd eigenvectors;
+    Eigen::VectorXd eigenvalues;
+    //Eigen::SparseMatrix<double> flipped = laplacian * (-1);
+    igl::eigs(laplacian, identity, numEigensToSee, igl::EIGS_TYPE_SM, eigenvectors, eigenvalues); //mesh.Vertices.block(0,0,mesh.Vertices.rows(), 2);
 
-    eigenvectors = mesh.Vertices.block(0,0,mesh.Vertices.rows(), 2);
+    // debug, examine
+    examineEigenDecomposition(eigenvectors, eigenvalues);
 
     igl::opengl::glfw::Viewer viewer;
     viewer.data().set_mesh(mesh.Vertices,mesh.Faces);

@@ -26,6 +26,8 @@ set(
         laplacian.cpp
         utils.h
         utils.cpp
+        examine.h
+        examine.cpp
 )
 
 # C++ standards
