@@ -5,6 +5,7 @@
 #include "examine.h"
 #include "iglViewer.h"
 #include "eigenfunctions.h"
+#include "heatEquation.h"
 
 int main(int argc, char * argv[])
 {
@@ -15,23 +16,30 @@ int main(int argc, char * argv[])
     int numEigensToSee = 1;
     if (argc == 3) numEigensToSee = atoi(argv[2]);
 
-    // get laplacian
-    Eigen::SparseMatrix<double> laplacian = computeCotangentLaplacian(mesh);
+    // get cotangents
+    Eigen::SparseMatrix<double> cotangents = computeCotangentLaplacian(mesh);
 
     // debug, examine
-    examineLaplacian(laplacian);
+    examineLaplacian(cotangents);
 
-    auto results = eigenDecomposition(laplacian, numEigensToSee);
+    auto results = eigenDecomposition(cotangents, numEigensToSee);
 
     // debug, examine
     examineEigenDecomposition(results.first, results.second);
 
     // get mass matrix
-    Eigen::SparseMatrix<double> mass = computeMassMatrix(mesh);
+    auto mass = computeMassMatrix(mesh);
 
     // debug, examine
     examineMass(mass);
 
+    // heat equation simulation
+    Eigen::VectorXd initial(mesh.Vertices.rows());
+    initial.setZero();
+    initial[0] = 1;
+    auto heat = simulateHeat(10, cotangents, mass, initial);
+
     // igl viewer
-    view(mesh, results.second);
+    // view(mesh, results.first); // eigenvectors
+    view(mesh, heat); // heat simulation
 }

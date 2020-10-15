@@ -2,6 +2,8 @@
 
 #include <igl/eigs.h>
 
+// Gives the eigen decomposition of the matrix
+// Returns (eigenvectors as cols, eigenvalues)
 std::pair<Eigen::MatrixXd, Eigen::VectorXd> eigenDecomposition(const Eigen::SparseMatrix<double>& matrix, int numEigensToSee)
 {
     Eigen::SparseMatrix<double> identity(matrix.rows(), matrix.cols());

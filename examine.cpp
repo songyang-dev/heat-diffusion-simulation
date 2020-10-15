@@ -3,6 +3,7 @@
 #include <Eigen/Sparse>
 #include <iostream>
 #include <fstream>
+#include <algorithm>
 
 void examineLaplacian(const Eigen::SparseMatrix<double>& cotangents)
 {
@@ -10,8 +11,8 @@ void examineLaplacian(const Eigen::SparseMatrix<double>& cotangents)
     std::ofstream myfile;
     myfile.open("matrix.txt");
     
-    int limitRows = cotangents.rows() <= 12 ? cotangents.rows() : 12;
-    int limitCols = cotangents.cols() <= 12 ? cotangents.cols() : 12;
+    int limitRows = std::min(cotangents.rows(), 12);
+    int limitCols = std::min(cotangents.cols(), 12);
 
     myfile << "Cotangents" << std::endl;
     myfile << cotangents.block(0,0, limitRows, limitCols) << std::endl;
@@ -46,17 +47,39 @@ void examineEigenDecomposition(const Eigen::MatrixXd& eigenvectors,
     myfile.close();
 }
 
-void examineMass(const Eigen::SparseMatrix<double>& mass)
+void examineMass(const DiagonalXd& mass)
 {
     // print a portion of the mass matrix
     std::ofstream myfile;
     myfile.open("matrix.txt", std::ios_base::app);
     
-    int limitRows = mass.rows() <= 12 ? mass.rows() : 12;
-    int limitCols = mass.cols() <= 12 ? mass.cols() : 12;
-
     myfile << std::endl << "Barycentric mass matrix" << std::endl;
-    myfile << mass.block(0,0, limitRows, limitCols) << std::endl;
 
+    if (mass.rows() > 12)
+    {
+        
+        myfile << mass.diagonal().head(12) << std::endl;
+    }
+    else
+    {
+        myfile << mass.diagonal() << std::endl;
+    }
+    
+    myfile.close();
+}
+
+void examineTemperatures(const Eigen::MatrixXd& temperatures)
+{
+    // print a portion of the mass matrix
+    std::ofstream myfile;
+    myfile.open("matrix.txt", std::ios_base::app);
+    
+    myfile << std::endl << "Temperature cols" << std::endl;
+
+    int limitRows = std::min(temperatures.rows(), 12);
+    int limitCols = std::min(temperatures.cols(), 12);
+
+    myfile << temperatures.block(0,0, limitRows, limitCols) << std::endl;
+    
     myfile.close();
 }

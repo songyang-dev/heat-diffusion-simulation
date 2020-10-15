@@ -32,6 +32,8 @@ set(
         iglViewer.cpp
         eigenfunctions.h
         eigenfunctions.cpp
+        heatEquation.h
+        heatEquation.cpp
 )
 
 # C++ standards

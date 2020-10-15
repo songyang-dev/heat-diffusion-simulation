@@ -119,7 +119,7 @@ EdgeToCotan computeCotangents(const trimesh::trimesh_t &mesh)
 }
 
 // Computes the mass matrix of the mesh, using barycentric lumped mass
-Eigen::SparseMatrix<double> computeMassMatrix(const trimesh::trimesh_t& mesh)
+DiagonalXd computeMassMatrix(const trimesh::trimesh_t& mesh)
 {
     // 1. Loop on all the faces
     // 2. Find the area of each face
@@ -127,7 +127,8 @@ Eigen::SparseMatrix<double> computeMassMatrix(const trimesh::trimesh_t& mesh)
     // 4. Return a diagonal sparse matrix of each vertex area
 
     // empty vertex area array
-    std::vector<double> areas(mesh.Vertices.size(), 0);
+    Eigen::VectorXd areas;
+    areas.setZero(mesh.Vertices.rows());
 
     // 1. Iterating on faces
     for (size_t i = 0; i < mesh.Faces.rows(); i++)
@@ -144,17 +145,10 @@ Eigen::SparseMatrix<double> computeMassMatrix(const trimesh::trimesh_t& mesh)
     
 
     // 4. Diagonal matrix
-    // make triplets from the areas matrix
-    std::vector<Triplet> triplets;
-    triplets.reserve(areas.size());
-    for (size_t i = 0; i < areas.size(); i++)
-    {
-        triplets.push_back(Triplet(i,i, areas[i]));
-    }
-    // create sparse matrix
-    Eigen::SparseMatrix<double> massMatrix(triplets.size(), triplets.size());
-    massMatrix.setFromTriplets(triplets.begin(), triplets.end());
-    return massMatrix;
+    DiagonalXd diag;
+    diag.diagonal() = areas;
+
+    return diag;
 }
 
 // Computes the length of the edge
