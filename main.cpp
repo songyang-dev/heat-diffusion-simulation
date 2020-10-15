@@ -1,10 +1,10 @@
-#include <igl/eigs.h>
 #include <Eigen/Sparse>
 
 #include "laplacian.h"
 #include "trimesh.h"
 #include "examine.h"
 #include "iglViewer.h"
+#include "eigenfunctions.h"
 
 int main(int argc, char * argv[])
 {
@@ -21,15 +21,10 @@ int main(int argc, char * argv[])
     // debug, examine
     examineLaplacian(laplacian);
 
-    Eigen::SparseMatrix<double> identity(laplacian.rows(), laplacian.cols());
-    identity.setIdentity();
-    Eigen::MatrixXd eigenvectors;
-    Eigen::VectorXd eigenvalues;
-    //Eigen::SparseMatrix<double> flipped = laplacian * (-1);
-    igl::eigs(laplacian, identity, numEigensToSee, igl::EIGS_TYPE_SM, eigenvectors, eigenvalues); //mesh.Vertices.block(0,0,mesh.Vertices.rows(), 2);
+    auto results = eigenDecomposition(laplacian, numEigensToSee);
 
     // debug, examine
-    examineEigenDecomposition(eigenvectors, eigenvalues);
+    examineEigenDecomposition(results.first, results.second);
 
     // get mass matrix
     Eigen::SparseMatrix<double> mass = computeMassMatrix(mesh);
@@ -38,5 +33,5 @@ int main(int argc, char * argv[])
     examineMass(mass);
 
     // igl viewer
-    view(mesh, eigenvectors);
+    view(mesh, results.second);
 }

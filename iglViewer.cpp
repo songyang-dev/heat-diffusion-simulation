@@ -2,7 +2,7 @@
 
 #include <igl/opengl/glfw/Viewer.h>
 
-void view(const trimesh::trimesh_t& mesh, const Eigen::MatrixXd& eigenvectors)
+void view(const trimesh::trimesh_t& mesh, const Eigen::MatrixXd& coloringVectors)
 {
     igl::opengl::glfw::Viewer viewer;
     viewer.data().set_mesh(mesh.Vertices,mesh.Faces);
@@ -17,8 +17,8 @@ void view(const trimesh::trimesh_t& mesh, const Eigen::MatrixXd& eigenvectors)
                 return false;
             case ' ':
             {
-                selectedcolumn = (selectedcolumn + 1) % eigenvectors.cols();
-                viewer.data().set_data(eigenvectors.col(selectedcolumn));
+                selectedcolumn = (selectedcolumn + 1) % coloringVectors.cols();
+                viewer.data().set_data(coloringVectors.col(selectedcolumn));
                 return true;
             }
         }

@@ -30,6 +30,8 @@ set(
         examine.cpp
         iglViewer.h
         iglViewer.cpp
+        eigenfunctions.h
+        eigenfunctions.cpp
 )
 
 # C++ standards
