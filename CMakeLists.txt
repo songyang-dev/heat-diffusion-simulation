@@ -28,6 +28,8 @@ set(
         utils.cpp
         examine.h
         examine.cpp
+        iglViewer.h
+        iglViewer.cpp
 )
 
 # C++ standards
