@@ -38,6 +38,7 @@ int main(int argc, char * argv[])
     initial.setZero();
     initial[0] = 1;
     auto heat = simulateHeat(10, cotangents, mass, results.first.col(0));
+    // auto heat = simulateHeat(10, cotangents, mass, initial);
 
     // igl viewer
     // view(mesh, results.first); // eigenvectors
