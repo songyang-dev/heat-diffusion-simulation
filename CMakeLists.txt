@@ -34,6 +34,8 @@ set(
         eigenfunctions.cpp
         heatEquation.h
         heatEquation.cpp
+        diffusionEquation.h
+        diffusionEquation.cpp
 )
 
 # C++ standards

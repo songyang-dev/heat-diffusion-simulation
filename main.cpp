@@ -6,6 +6,7 @@
 #include "iglViewer.h"
 #include "eigenfunctions.h"
 #include "heatEquation.h"
+#include "diffusionEquation.h"
 
 int main(int argc, char * argv[])
 {
@@ -34,13 +35,14 @@ int main(int argc, char * argv[])
     examineMass(mass);
 
     // heat equation simulation
-    Eigen::VectorXd initial(mesh.Vertices.rows());
-    initial.setZero();
-    initial[0] = 1;
-    auto heat = simulateHeat(10, cotangents, mass, results.first.col(0));
+    // Eigen::VectorXd initial(mesh.Vertices.rows());
+    // initial.setZero();
+    // initial[0] = 1;
+    // auto heat = simulateHeat(10, cotangents, mass, results.first.col(0));
     // auto heat = simulateHeat(10, cotangents, mass, initial);
 
     // igl viewer
     // view(mesh, results.first); // eigenvectors
-    view(mesh, heat); // heat simulation
+    // view(mesh, heat); // heat simulation
+    viewSmoothing(simulateDiffusion(10, cotangents, mass, mesh), mesh.Faces);
 }
