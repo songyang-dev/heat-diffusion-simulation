@@ -34,15 +34,17 @@ int main(int argc, char * argv[])
     // debug, examine
     examineMass(mass);
 
+    // UNCOMMENT HERE AS NEEDED!
+
     // heat equation simulation
     // Eigen::VectorXd initial(mesh.Vertices.rows());
     // initial.setZero();
     // initial[0] = 1;
-    // auto heat = simulateHeat(10, cotangents, mass, results.first.col(0));
-    // auto heat = simulateHeat(10, cotangents, mass, initial);
+    // auto heat = simulateHeat(10, cotangents, mass, results.first.col(0)); // eigenvector conditions
+    // auto heat = simulateHeat(10, cotangents, mass, initial); // one hat initial conditions
 
     // igl viewer
     // view(mesh, results.first); // eigenvectors
     // view(mesh, heat); // heat simulation
-    viewSmoothing(simulateDiffusion(10, cotangents, mass, mesh), mesh.Faces);
+    viewSmoothing(simulateDiffusion(10, cotangents, mass, mesh), mesh.Faces); // mesh smoothing
 }

@@ -1,28 +1,37 @@
-
-This code was melted together from [libigl-example-project](https://github.com/libigl/libigl-example-project) and [half-edge date structure by Yotam Gingold](https://github.com/yig/halfedge) and provided as a reference. 
-
-**Remark**: This code is not optimized, but it gets the work done.
+# IFT 6113 HW 2
+Implements Laplacian computations, eigenvector visualization, heat simulation and diffusion equation smoothing of a mesh.
 
 # Usage
-Provide short description on how to run your code from command line.
+The default configuration is to run the diffusion equation smoothing of a mesh.
+`./example.exe name-of-obj`
 
+If you want to run the heat simulation or the eigenvector colorings, you need to go into `main.cpp` and uncomment the various function calls. After that, recompile and 
+`./example.exe name-of-obj [number-of-eigenvectors-to-get]`
+will try to solve the given amount of Laplacian eigenvectors of the mesh. Default is 1. 
+
+Press Space to interact in the viewer, here is the behavior:
+* Eigenvector colorings: cycle through colorings, in order of frequency
+* Heat simulation: advance through time, winds back after 10 iterations
+* Smoothing simulation: increase the smoothing level, winds back after 10 iterations
+
+# Installation
 ## Prerequisites
-For ubuntu:
-```bash
-sudo apt-get install git build-essential cmake libx11-dev mesa-common-dev libgl1-mesa-dev libglu1-mesa-dev libxrandr-dev libxi-dev libxmu-dev libblas-dev libxinerama-dev libxcursor-dev
-```
-Other OS: see [libigl tutorial](https://libigl.github.io/tutorial/) and [libigl github issues](https://github.com/libigl/libigl/issues)
+For Windows, the following c++ packages must be install with `vcpkg` (https://github.com/Microsoft/vcpkg):
+* eigen3
+* glfw
+* glad
+* opengl
 
-Don't forget to clone libigl submodule:
-```bash
-git submodule update --init --recursive
-```
+Manual installation of `libigl` is required, as elaborated by the [template repository](https://github.com/ivanpuhachov/ift6113_2020/tree/master/hw1_cpp).
+
+*Note*: There is no additional dependency in this project compared to the template repository. So the project should be able to compile on any system that satisfies the template repo.
 
 ## Build
-```c
+### Windows
+```batch
 mkdir build
 cd build
-cmake ..
-make
-./example
+..\..\build.bat release
 ```
+### Other OS
+Follow the steps on the template repository.
