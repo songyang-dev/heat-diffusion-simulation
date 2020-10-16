@@ -1,7 +1,7 @@
 #include "heatEquation.h"
 #include "examine.h"
 
-#define TIME_INTERVAL 1
+#define TIME_INTERVAL 0.5
 #define HEAT_COEFFICIENT 0.1
 
 // simulates the surface temperature of the mesh after heat dissipates

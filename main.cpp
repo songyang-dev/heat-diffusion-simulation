@@ -37,7 +37,7 @@ int main(int argc, char * argv[])
     Eigen::VectorXd initial(mesh.Vertices.rows());
     initial.setZero();
     initial[0] = 1;
-    auto heat = simulateHeat(10, cotangents, mass, initial);
+    auto heat = simulateHeat(10, cotangents, mass, results.first.col(0));
 
     // igl viewer
     // view(mesh, results.first); // eigenvectors
